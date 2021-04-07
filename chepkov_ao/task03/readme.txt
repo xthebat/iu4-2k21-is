@@ -32,13 +32,13 @@ void main(int argc, char* argv[]) {
 											
 		sysname_len = strlen(sysname);		//Длина имени пользователя ПК.
 		tries_to_get_sysname++;				//Количество попыток получить имя.
-	} while (( *sysname < '0' || (*sysname > '9'
+	} while (( *sysname < '.' || (*sysname > '9'
 			&& *sysname < 'A') || (*sysname > 'Z'
 			&& *sysname < 'a') || *sysname > 'z' 
-			|| *(sysname + 1) < '0' || (*(sysname + 1) > '9'
+			|| *(sysname + 1) < '.' || (*(sysname + 1) > '9'
 			&& *(sysname + 1) < 'A') || (*(sysname + 1) > 'Z'
 			&& *(sysname + 1) < 'a') || *(sysname + 1) > 'z'
-			|| *(sysname + 2) < '0' || (*(sysname + 2) > '9'
+			|| *(sysname + 2) < '.' || (*(sysname + 2) > '9'
 			&& *(sysname + 2) < 'A') || (*(sysname + 2) > 'Z'
 			&& *(sysname + 2) < 'a') || *(sysname + 2) > 'z'
 			|| sysname_len < 3) && tries_to_get_sysname < 64); 
