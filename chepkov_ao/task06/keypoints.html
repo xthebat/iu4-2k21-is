@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>IDA - task06.exe E:\dll\task06.exe</title>
+</head>
+<body class="c41">
+<span style="white-space: pre; font-family: Consolas,monospace;" class="c1 c41">
+<span class="c33">int __cdecl main</span><span class="c9">(</span><span class="c33">int argc</span><span class="c9">, </span><span class="c33">const char **argv</span><span class="c9">, </span><span class="c33">const char **envp</span><span class="c9">)
+{
+  </span><span class="c33">int result</span><span class="c9">; </span><span class="c33">// </span><span class="c24">eax
+  </span><span class="c33">list_t *list</span><span class="c9">; </span><span class="c33">// </span><span class="c24">[esp+18h] [ebp-10h]
+
+  </span><span class="c8">sub_401E80</span><span class="c9">();
+  </span><span class="c32">if </span><span class="c9">( </span><span class="c24">argc &gt; </span><span class="c32">1 </span><span class="c9">)
+  {
+    </span><span class="c32">if </span><span class="c9">( </span><span class="c24">argc &gt; </span><span class="c32">2 </span><span class="c9">)
+    {
+      </span><span class="c8">printf</span><span class="c9">(&quot;</span><span class="c25">Program started: %s\n&quot;</span><span class="c9">, *</span><span class="c24">argv</span><span class="c9">);
+      </span><span class="c24">list </span><span class="c9">= </span><span class="c8">push_argv</span><span class="c9">(</span><span class="c24">argv </span><span class="c9">+ </span><span class="c32">3</span><span class="c9">, </span><span class="c24">argc </span><span class="c9">- </span><span class="c32">3</span><span class="c9">);     </span><span class="c12">// пушим аргументы в список, начиная с третьего.
+                                                // Первые два - это имя пользоваля и пароль, но
+                                                // в данной программе они бесполезны
+												</span>
+<span class="c12">/*****************************************************************************************************************************************/</span>
+                                           
+				<span class="c23">list_t *__cdecl push_argv</span><span class="c9">(</span><span class="c23">const char **argv</span><span class="c9">, </span><span class="c23">int argc</span><span class="c9">)
+				{
+				  </span><span class="c33">int i</span><span class="c9">; </span><span class="c33">// </span><span class="c24">[esp+14h] [ebp-14h]
+				  </span><span class="c33">list_t *list</span><span class="c9">; </span><span class="c33">// </span><span class="c24">[esp+18h] [ebp-10h]
+
+				  list </span><span class="c9">= </span><span class="c8">list_create</span><span class="c9">();                         </span><span class="c12">// создаём структуру списка
+				  </span><span class="c32">for </span><span class="c9">( </span><span class="c24">i </span><span class="c9">= </span><span class="c32">0</span><span class="c9">; </span><span class="c24">i &lt; argc</span><span class="c9">; ++</span><span class="c24">i </span><span class="c9">)
+					</span><span class="c8">list_add</span><span class="c9">(</span><span class="c24">list</span><span class="c9">, </span><span class="c24">argv</span><span class="c9">[</span><span class="c24">i</span><span class="c9">]);                    </span><span class="c12">// добавляем аргументы командной строки, 
+										// начиная с третьей
+				  </span><span class="c32">return </span><span class="c24">list</span><span class="c9">;
+				</span><span class="c24"></span><span class="c9">}
+				</span>
+<span class="c12">/*****************************************************************************************************************************************/</span>
+                       						 
+      <span class="c8">print_list_nodes</span><span class="c9">(</span><span class="c24">list</span><span class="c9">);                   </span><span class="c12">// выводит список нодов на экран
+                                                // 
+      </span><span class="c32">if </span><span class="c9">( </span><span class="c8">cmp</span><span class="c9">(</span><span class="c24">list</span><span class="c9">, </span><span class="c8">cmp_w_TEST</span><span class="c9">) )              </span><span class="c12">// функция второго аргумента содержит ключевое
+                                                // слово TEST. strcmp с ним даёт нуль.
+                                                // Этот нуль пушится во второй аргумент
+												</span>
+<span class="c12">/*****************************************************************************************************************************************/</span>
+                                                
+				<span class="c23">BOOL __cdecl cmp_w_TEST</span><span class="c9">(</span><span class="c23">int a1</span><span class="c9">, </span><span class="c23">node_t *node</span><span class="c9">)
+				{
+				  </span><span class="c32">return </span><span class="c8">strcmp</span><span class="c9">(</span><span class="c24">node</span><span class="c9">-&gt;data, &quot;</span><span class="c25">TEST&quot;</span><span class="c9">) == </span><span class="c32">0</span><span class="c9">;       </span><span class="c12">// в дате наша строка с аргументом
+				</span><span class="c9"></span><span class="c9">}
+				</span>
+
+				
+				<span class="c23">node_t *__cdecl cmp</span><span class="c9">(</span><span class="c23">list_t *list</span><span class="c9">, </span><span class="c23">int </span><span class="c9">(</span><span class="c23">__cdecl *cmp_w_TEST</span><span class="c9">)(_DWORD, int))
+				{
+				  </span><span class="c33">node_t *node</span><span class="c9">; </span><span class="c33">// </span><span class="c24">[esp+14h] [ebp-14h]
+
+				  </span><span class="c32">if </span><span class="c9">( !</span><span class="c24">list </span><span class="c9">)
+					</span><span class="c8">assert</span><span class="c9">(&quot;</span><span class="c25">l != NULL&quot;</span><span class="c9">, &quot;</span><span class="c25">task06.c&quot;</span><span class="c9">, </span><span class="c32">112</span><span class="c9">);
+				  </span><span class="c32">for </span><span class="c9">( </span><span class="c24">node </span><span class="c9">= </span><span class="c24">list</span><span class="c9">-&gt;head; </span><span class="c24">node</span><span class="c9">; </span><span class="c24">node </span><span class="c9">= </span><span class="c24">node</span><span class="c9">-&gt;next )</span><span class="c12">// берёт первый нод из списка
+				  </span><span class="c9">{
+					</span><span class="c32">if </span><span class="c9">( </span><span class="c24">cmp_w_TEST</span><span class="c9">(</span><span class="c32">0</span><span class="c9">, </span><span class="c24">node</span><span class="c9">) )                  </span><span class="c12">// и сравнивает его поле node-&gt;data с TEST.
+										// Если они совпадают, возвращает его адрес
+										// и, так как он больше нуля, соблюдается условие
+										// if и в консоль выводится &quot;That&#039;s fine!&quot;,
+										// Иначе в консоль подряд выводятся все ноды по списку.
+					  </span><span class="c32">return </span><span class="c24">node</span><span class="c9">;
+				  </span><span class="c24"></span><span class="c9">}
+				  </span><span class="c32">return 0</span><span class="c9">;
+				</span><span class="c32"></span><span class="c9">}
+				</span>
+<span class="c12">/*****************************************************************************************************************************************/</span>
+                         
+        <span class="c8">puts</span><span class="c9">(&quot;</span><span class="c25">That&#039;s fine!&quot;</span><span class="c9">);
+      </span><span class="c8">free_l</span><span class="c9">(</span><span class="c24">list</span><span class="c9">);
+      </span><span class="c24">result </span><span class="c9">= </span><span class="c32">0</span><span class="c9">;
+    </span><span class="c32"></span><span class="c9">}
+    </span><span class="c32">else
+    </span><span class="c9">{
+      </span><span class="c8">puts</span><span class="c9">(&quot;</span><span class="c25">Specify password...&quot;</span><span class="c9">);
+      </span><span class="c24">result </span><span class="c9">= </span><span class="c32">-1</span><span class="c9">;
+    </span><span class="c32"></span><span class="c9">}
+  </span><span class="c1"></span><span class="c9">}
+  </span><span class="c32">else
+  </span><span class="c9">{
+    </span><span class="c8">puts</span><span class="c9">(&quot;</span><span class="c25">Specify user name...&quot;</span><span class="c9">);
+    </span><span class="c24">result </span><span class="c9">= </span><span class="c32">-1</span><span class="c9">;
+  </span><span class="c32"></span><span class="c9">}
+  </span><span class="c32">return </span><span class="c24">result</span><span class="c9">;
+  
+</span><span class="c24"></span><span class="c9">}
+</span>
+
+<span class="c12">/*****************************************************************************************************************************************/</span>
+                                                
+<center><big><big>		Пример работы:		
+
+<img src="https://db3pap002files.storage.live.com/y4mXhSchogVFtgC6WWnR7LJwXtqH98XJ07TI0eEMxsfnoSTmsJktpaiNngAj15L8zIcsq-k6zRScB21KGX1bCwIG9lX8kS4f8vBw2cBXeTgqoWxV6YXgPed6jq7MwcdClfm1oI1zul68a0POJtcRxg8dklzIQiLzJLdFTToAt58e_IPFn4NKTSdT-sWRe7Ka54g?width=654&height=175&cropmode=none" width="654" height="175" />
+</big></big>
+</center>
+</span><style type="text/css">
+
+/* line-fg-default */
+.c1 { color: #AAAAAA; }
+/* line-bg-default */
+.c41 { background-color: #4D4D4D; }
+/* line-fg-register-name */
+.c33 { color: #73ADAD; }
+/* line-fg-punctuation */
+.c9 { color: silver; }
+/* line-fg-libfunc */
+.c24 { color: aqua; }
+/* line-fg-demangled-name */
+.c8 { color: #FFECBB; }
+/* line-fg-keyword */
+.c32 { color: #ABABAB; }
+/* line-fg-locvar */
+.c25 { color: #FF8000; }
+/* line-fg-numlit-in-insn */
+.c12 { color: #D25032; }
+</style></body></html>
