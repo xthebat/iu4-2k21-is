@@ -9,29 +9,29 @@ int main(int argc, char* argv[]) {
 
     char *name = (char*)malloc(sizeof(char) * 128);
 	DWORD dwBuffer = 128;
-    int sysname_len = 128;
 
     if (argc > 1)
         name = argv[1];
     else
-    GetUserNameA(name, &dwBuffer);
+        GetUserNameA(name, &dwBuffer);
 
     char sysname[128] = {0};
 
     strcpy(sysname, name);
 
-    if (strlen(sysname) < 8 || 8 < strlen(sysname)) {
+    if (strlen(sysname) != 8) {
         printf("\n                   NOTE:\n"); 
         printf("*Your username length should be equal to 8*\n");
-    }
 
-    while (strlen(sysname) < 8) {
-        strcat(sysname, name);
+        while (strlen(sysname) < 8)
+            strcat(sysname, name);
+        
+        if (strlen(sysname) > 8) {
+            int size = strlen(sysname);
+            for (int counter = 8; counter < size; counter++)
+                sysname[counter] = 0;
+        }
     }
-
-    if (strlen(sysname) > 8)
-        for (int counter = 8; counter < strlen(sysname); counter++)
-            sysname[counter] = 0;
 
     char serial[128] = {0};
     get_serial(serial);
