@@ -1,0 +1,11 @@
+Компиляция:
+gcc .\keygen.c -o .\keygen.exe
+Генерация:
+.\keygen.exe username
+Проверка:
+.\task09.exe -u username -p genpassw -f .\license.txt
+echo %errorlevel%
+
+Длина генерируемого логина и пароля всегда равна 8 символам.
+Иначе возможно залезание на debug_flag и программа не будет
+работать корректно.
